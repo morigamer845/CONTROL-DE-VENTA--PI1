@@ -11,6 +11,7 @@ import UsuariosPage from './pages/Usuarios'
 import NuevaVentaPage from './pages/ventas/NuevaVenta'
 import HistorialPage from './pages/ventas/Historial'
 import ReportesPage from './pages/ventas/Reportes'
+import ConfiguracionPage from './pages/Configuracion'
 
 // 404
 function NotFound() {
