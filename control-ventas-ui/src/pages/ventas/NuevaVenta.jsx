@@ -60,7 +60,7 @@ export default function NuevaVentaPage() {
 
   const addToCart = (prod) => {
     const id = g(prod, 'idProducto', 'IdProducto')
-    const stock = g(prod, 'stock', 'Stock') || 0
+    const stock = g(prod, 'stockActual', 'StockActual') || 0
     const precio = g(prod, 'precioVenta', 'PrecioVenta') || 0
     const nombre = g(prod, 'nombreProducto', 'NombreProducto') || ''
 
@@ -172,7 +172,7 @@ export default function NuevaVentaPage() {
                     const id = g(p, 'idProducto', 'IdProducto')
                     const nombre = g(p, 'nombreProducto', 'NombreProducto') || ''
                     const precio = g(p, 'precioVenta', 'PrecioVenta') || 0
-                    const stock = g(p, 'stock', 'Stock') || 0
+                    const stock = g(p, 'stockActual', 'StockActual') || 0
                     return (
                       <button
                         key={id}
