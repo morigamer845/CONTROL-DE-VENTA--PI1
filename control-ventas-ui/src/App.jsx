@@ -51,6 +51,7 @@ function AppRoutes() {
         <Route path="/productos" element={<AdminRoute><ProductosPage /></AdminRoute>} />
         <Route path="/usuarios" element={<AdminRoute><UsuariosPage /></AdminRoute>} />
         <Route path="/reportes" element={<AdminRoute><ReportesPage /></AdminRoute>} />
+        <Route path="/configuracion" element={<AdminRoute><ConfiguracionPage /></AdminRoute>} />
       </Route>
 
       {/* Default */}

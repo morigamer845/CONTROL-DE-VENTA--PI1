@@ -2,7 +2,7 @@ import { NavLink, useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import {
   Home, Box, Users, UserCheck, ShoppingCart,
-  ClipboardList, BarChart2, LogOut, Zap
+  ClipboardList, BarChart2, LogOut, Zap, Cog
 } from 'lucide-react'
 
 const ICON_MAP = {
@@ -13,6 +13,7 @@ const ICON_MAP = {
   ShoppingCartIcon: ShoppingCart,
   DocumentTextIcon: ClipboardList,
   ChartBarIcon: BarChart2,
+  CogIcon: Cog
 }
 
 export default function Sidebar() {

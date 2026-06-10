@@ -124,6 +124,7 @@ namespace ControlVentas.API.Controllers
                 menu.Add(new MenuItemDto { Texto = "Nueva Venta", Ruta = "/ventas/nueva", Icono = "ShoppingCartIcon" });
                 menu.Add(new MenuItemDto { Texto = "Historial de Ventas", Ruta = "/ventas/historial", Icono = "DocumentTextIcon" });
                 menu.Add(new MenuItemDto { Texto = "Reportes Estadísticos", Ruta = "/reportes", Icono = "ChartBarIcon" });
+                menu.Add(new MenuItemDto { Texto = "Configuracion", Ruta = "/configuracion", Icono = "CogIcon" });
             }
             else if (rol == "Cajero")
             {

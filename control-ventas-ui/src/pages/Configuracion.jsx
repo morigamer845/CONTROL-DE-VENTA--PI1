@@ -243,7 +243,6 @@ function SeccionCategorias() {
 ══════════════════════════════════════════════════════════ */
 function SeccionMarcas() {
   const columns = [
-    { key: 'id',     label: '#',     render: r => g(r, 'idMarca', 'IdMarca') },
     { key: 'nombre', label: 'Marca', render: r => g(r, 'nombreMarca', 'NombreMarca') || '—' },
   ]
 
@@ -293,10 +292,6 @@ const metodosPagoServiceConDelete = {
 function SeccionMetodosPago() {
   /* Columnas adaptadas a cualquier serialización del backend */
   const columns = [
-    {
-      key: 'id', label: '#',
-      render: r => g(r, 'idMetodoPago', 'IdMetodoPago') ?? g(r, 'id', 'Id') ?? '—',
-    },
     {
       key: 'nombre', label: 'Método de pago',
       render: r =>
