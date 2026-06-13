@@ -19,8 +19,21 @@ export const clientesService = {
 // ── PRODUCTOS / INVENTARIO ────────────────────────────
 export const productosService = {
   getAll: () => api.get('/productos'),
-  create: (data) => api.post('/productos', data),
-  update: (id, data) => api.put(`/productos/${id}`, data),
+  create: (data) => {
+    const IdCategoriaNavigation = {}
+    const IdMarcaNavigation = {}
+
+    data = {...data, IdCategoriaNavigation, IdMarcaNavigation}
+    api.post('/productos', data)
+  },
+
+  update: (id, data) => {
+    const IdCategoriaNavigation = {}
+    const IdMarcaNavigation = {}
+
+    data = {...data, IdCategoriaNavigation, IdMarcaNavigation}
+    api.put(`/productos/${id}`, data)
+  },
   delete: (id) => api.delete(`/productos/${id}`),
 }
 

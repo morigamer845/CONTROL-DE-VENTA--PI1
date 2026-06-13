@@ -8,9 +8,9 @@ import { Box, Plus, Pencil, Trash2 } from 'lucide-react'
 import toast from 'react-hot-toast'
 
 const EMPTY = {
-  codigoProducto: '', nombreProducto: '', descripcion: '',
+  codigoBarras: '', nombreProducto: '', descripcion: '',
   idCategoria: '', idMarca: '', precioCompra: '', precioVenta: '',
-  stock: '', stockMinimo: '', unidadMedida: '', estado: true,
+  stockActual: '', stockMinimo: '', estado: true,
 }
 
 const fmtC = v => `C$ ${Number(v || 0).toLocaleString('es-NI', { minimumFractionDigits: 2 })}`
@@ -51,16 +51,15 @@ export default function ProductosPage() {
   const openEdit = (p) => {
     setEditData(p)
     setForm({
-      codigoProducto: g(p, 'codigoProducto', 'CodigoProducto') || '',
+      codigoBarras: g(p, 'codigoBarras', 'CodigoBarras') || '',
       nombreProducto: g(p, 'nombreProducto', 'NombreProducto') || '',
       descripcion: g(p, 'descripcion', 'Descripcion') || '',
       idCategoria: g(p, 'idCategoria', 'IdCategoria') || '',
       idMarca: g(p, 'idMarca', 'IdMarca') || '',
       precioCompra: g(p, 'precioCompra', 'PrecioCompra') || '',
       precioVenta: g(p, 'precioVenta', 'PrecioVenta') || '',
-      stock: g(p, 'stock', 'Stock') || '',
+      stockActual: g(p, 'stockActual', 'StockActual') || '',
       stockMinimo: g(p, 'stockMinimo', 'StockMinimo') || '',
-      unidadMedida: g(p, 'unidadMedida', 'UnidadMedida') || '',
       estado: g(p, 'estado', 'Estado') ?? true,
     })
     setModal(true)
@@ -75,7 +74,7 @@ export default function ProductosPage() {
         ...form,
         precioCompra: Number(form.precioCompra) || 0,
         precioVenta: Number(form.precioVenta) || 0,
-        stock: Number(form.stock) || 0,
+        stockActual: Number(form.stockActual) || 0,
         stockMinimo: Number(form.stockMinimo) || 0,
         idCategoria: Number(form.idCategoria) || null,
         idMarca: Number(form.idMarca) || null,
@@ -106,12 +105,12 @@ export default function ProductosPage() {
   const filtered = items.filter(p => {
     const q = search.toLowerCase()
     const nombre = (g(p, 'nombreProducto', 'NombreProducto') || '').toLowerCase()
-    const codigo = (g(p, 'codigoProducto', 'CodigoProducto') || '').toLowerCase()
+    const codigo = (g(p, 'codigoBarras', 'CodigoBarras') || '').toLowerCase()
     return nombre.includes(q) || codigo.includes(q)
   })
 
   const columns = [
-    { key: 'codigo', label: 'Código', render: r => g(r, 'codigoProducto', 'CodigoProducto') || '—' },
+    { key: 'codigo', label: 'Código', render: r => g(r, 'codigoBarras', 'CodigoBarras') || '—' },
     { key: 'nombre', label: 'Producto', render: r => g(r, 'nombreProducto', 'NombreProducto') || '—' },
     {
       key: 'categoria', label: 'Categoría', render: r => {
@@ -130,7 +129,7 @@ export default function ProductosPage() {
     { key: 'precio', label: 'P. Venta', render: r => fmtC(g(r, 'precioVenta', 'PrecioVenta')), align: 'right' },
     {
       key: 'stock', label: 'Stock', render: r => {
-        const s = g(r, 'stock', 'Stock') || 0
+        const s = g(r, 'stockActual', 'StockActual') || 0
         const min = g(r, 'stockMinimo', 'StockMinimo') || 0
         return <Badge color={s <= min ? 'red' : 'green'}>{s}</Badge>
       }, align: 'center'
@@ -177,8 +176,8 @@ export default function ProductosPage() {
       <Modal open={modal} onClose={() => setModal(false)} title={editData ? 'Editar producto' : 'Nuevo producto'} width={600}>
         <form onSubmit={handleSave} style={{ display: 'flex', flexDirection: 'column', gap: '0.85rem' }}>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.85rem' }}>
-            <Field label="Código">
-              <input value={form.codigoProducto} onChange={e => setForm(p => ({ ...p, codigoProducto: e.target.value }))} placeholder="SKU-001" />
+            <Field label="Código de Barras">
+              <input value={form.codigoBarras} onChange={e => setForm(p => ({ ...p, codigoBarras: e.target.value }))} placeholder="82100000123" />
             </Field>
             <Field label="Nombre del producto" required>
               <input value={form.nombreProducto} onChange={e => setForm(p => ({ ...p, nombreProducto: e.target.value }))} placeholder="Nombre del artículo" />
@@ -209,15 +208,12 @@ export default function ProductosPage() {
               <input type="number" step="0.01" min="0" value={form.precioVenta} onChange={e => setForm(p => ({ ...p, precioVenta: e.target.value }))} placeholder="0.00" />
             </Field>
           </div>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '0.85rem' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.85rem' }}>
             <Field label="Stock actual">
-              <input type="number" min="0" value={form.stock} onChange={e => setForm(p => ({ ...p, stock: e.target.value }))} placeholder="0" />
+              <input type="number" min="0" value={form.stockActual} onChange={e => setForm(p => ({ ...p, stockActual: e.target.value }))} placeholder="0" />
             </Field>
             <Field label="Stock mínimo">
               <input type="number" min="0" value={form.stockMinimo} onChange={e => setForm(p => ({ ...p, stockMinimo: e.target.value }))} placeholder="0" />
-            </Field>
-            <Field label="Unidad">
-              <input value={form.unidadMedida} onChange={e => setForm(p => ({ ...p, unidadMedida: e.target.value }))} placeholder="Unid, Kg, Lt..." />
             </Field>
           </div>
           <Field label="Estado">
