@@ -25,6 +25,7 @@ export const productosService = {
 
     data = {...data, IdCategoriaNavigation, IdMarcaNavigation}
     api.post('/productos', data)
+    return api.post('/productos', data)
   },
 
   update: (id, data) => {
@@ -33,6 +34,7 @@ export const productosService = {
 
     data = {...data, IdCategoriaNavigation, IdMarcaNavigation}
     api.put(`/productos/${id}`, data)
+    return api.put(`/productos/${id}`, data)
   },
   delete: (id) => api.delete(`/productos/${id}`),
 }
