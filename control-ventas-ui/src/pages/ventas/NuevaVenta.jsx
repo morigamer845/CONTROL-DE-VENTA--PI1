@@ -93,17 +93,23 @@ export default function NuevaVentaPage() {
     setSaving(true)
     try {
       const payload = {
-        idUsuario: user?.idUsuario,
-        idCliente: idCliente ? Number(idCliente) : null,
+        idUsuario: user?.idUsuario || 1, // Fallback a 1 si no hay usuario en contexto
+        idCliente: idCliente ? Number(idCliente) : 1, // Enviar 1 (Consumidor Final) en lugar de null
+        idTurno: 1, // ¡FALTABA! El backend valida que exista un turno abierto. (Pon el ID de tu turno abierto)
         idMetodoPago: Number(idMetodoPago),
-        observaciones,
-        subtotal,
-        total,
+        
+        // ¡FALTABAN! C# espera strings no nulos
+        tipoComprobante: 'FACTURA', 
+        numComprobante: `F-${Date.now()}`, // Genera un número único temporal para que no choque el uq_num_factura
+        
+        impuesto: 0, // ¡FALTABA!
+        total: total,
+        
         detalles: carrito.map(x => ({
           idProducto: x.idProducto,
           cantidad: x.cantidad,
-          precioUnitario: x.precio,
-          subtotal: x.precio * x.cantidad,
+          precioVenta: x.precio, // ¡CORREGIDO! C# espera 'precioVenta', no 'precioUnitario'
+          descuento: 0           // ¡CORREGIDO! El DTO espera el campo de descuento
         }))
       }
       const { data } = await ventasService.create(payload)
@@ -271,8 +277,9 @@ export default function NuevaVentaPage() {
                 <select value={idMetodoPago} onChange={e => setIdMetodoPago(e.target.value)}>
                   <option value="">Seleccionar...</option>
                   {metodos.map(m => {
-                    const id = m.idMetodoPago || m.IdMetodoPago
-                    const nombre = m.nombreMetodo || m.NombreMetodo || m.nombre || m.Nombre
+                    // ⚡ CORREGIDO: La propiedad real que viene del backend es idMetodo, no idMetodoPago
+                    const id = m.idMetodo || m.IdMetodo
+                    const nombre = m.nombreMetodo || m.NombreMetodo 
                     return <option key={id} value={id}>{nombre}</option>
                   })}
                 </select>

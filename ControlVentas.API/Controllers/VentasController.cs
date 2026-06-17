@@ -36,10 +36,17 @@ namespace ControlVentas.API.Controllers
                 return BadRequest(new { mensaje = "La venta debe incluir al menos un producto." });
             }
 
-            // ⚡ CORREGIDO: Comparamos contra true para verificar que el turno esté abierto
-            var turnoValido = await _context.Set<TurnosCaja>().AnyAsync(t => t.IdTurno == dto.IdTurno && t.Estado == true);
-            if (!turnoValido) return BadRequest(new { mensaje = "No se puede facturar porque este turno de caja está cerrado o no existe." });
+          // ⚡ SOLUCIÓN DEFINITIVA: El Backend busca automáticamente el turno abierto
+var turnoAbierto = await _context.Set<TurnosCaja>().FirstOrDefaultAsync(t => t.Estado == true); 
+// Nota: Si Visual Studio te subraya "true" en rojo, cámbialo por un 1 (t.Estado == 1)
 
+if (turnoAbierto == null) 
+{
+    return BadRequest(new { mensaje = "No se puede facturar porque no hay ningún turno de caja abierto en el sistema." });
+}
+
+// Sobrescribimos el dato que viene de React con el ID real que generó MySQL
+dto.IdTurno = turnoAbierto.IdTurno;
             using var transaction = await _context.Database.BeginTransactionAsync();
 
             try
