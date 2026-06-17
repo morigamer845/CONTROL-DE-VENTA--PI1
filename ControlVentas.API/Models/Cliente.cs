@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text.Json.Serialization;
-
+using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 namespace ControlVentas.API.Models;
 
 public partial class Cliente
@@ -21,5 +21,6 @@ public partial class Cliente
     public string? Email { get; set; }
 
     [JsonIgnore]
+    [ValidateNever]
     public virtual ICollection<Venta> Venta { get; set; } = new List<Venta>();
 }

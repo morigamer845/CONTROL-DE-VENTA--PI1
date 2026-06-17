@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text.Json.Serialization;
-
+using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 namespace ControlVentas.API.Models;
 
 // ¡OJO AQUÍ! Asegúrate de que diga Producto y NO Cliente
@@ -36,9 +36,11 @@ public partial class Producto
     public virtual ICollection<DetalleVenta> DetalleVenta { get; set; } = new List<DetalleVenta>();
 
     [JsonIgnore]
+    [ValidateNever]
     public virtual Categoria IdCategoriaNavigation { get; set; } = null!;
 
     [JsonIgnore]
+    [ValidateNever]
     public virtual Marca IdMarcaNavigation { get; set; } = null!;
 
     [JsonIgnore]
